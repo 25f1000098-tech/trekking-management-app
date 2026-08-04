@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}My Profile{% endblock %}
+{% block content %}
+    <h1>My Profile</h1>
+    <form method="POST">
+        <label for="bio">Bio</label>
+        <input type="text" id="bio" name="bio" value="{{ profile.bio or '' }}">
+
+        <label for="experience_years">Years of Experience</label>
+        <input type="number" id="experience_years" name="experience_years" value="{{ profile.experience_years or '' }}" min="0">
+
+        <button type="submit">Save Profile</button>
+    </form>
+    <p><a href="{{ url_for('staff.dashboard') }}">Back to Dashboard</a></p>
+{% endblock %}
