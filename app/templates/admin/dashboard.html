@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block content %}
+    <h1>Admin Dashboard</h1>
+    <p>Welcome, {{ current_user.username }}</p>
+
+    <ul>
+        <li>Total Treks: {{ total_treks }}</li>
+        <li>Total Trekkers: {{ total_users }}</li>
+        <li>Total Staff: {{ total_staff }}</li>
+        <li>Total Bookings: {{ total_bookings }}</li>
+    </ul>
+    <p><a href="{{ url_for('admin.create_trek') }}">+ Create New Trek</a></p>
+    <p><a href="{{ url_for('admin.list_staff') }}">Manage Staff</a></p>
+    <p><a href="{{ url_for('admin.list_treks') }}">Manage Treks</a></p>
+    <p><a href="{{ url_for('admin.list_users') }}">Manage Trekkers</a></p>
+    <p><a href="{{ url_for('admin.list_bookings') }}">View All Bookings</a></p>
+    <p><a href="{{ url_for('auth.logout') }}">Log out</a></p>
+{% endblock %}

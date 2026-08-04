@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}All Bookings{% endblock %}
+{% block content %}
+    <h1>All Bookings</h1>
+
+    {% if bookings %}
+        <table border="1" cellpadding="6" style="border-collapse: collapse; width: 100%;">
+            <tr>
+                <th>Trekker</th>
+                <th>Trek</th>
+                <th>Status</th>
+                <th>Payment</th>
+                <th>Date</th>
+            </tr>
+            {% for booking in bookings %}
+            <tr>
+                <td>{{ booking.user.username }}</td>
+                <td>{{ booking.trek.name }}</td>
+                <td>{{ booking.booking_status }}</td>
+                <td>{{ booking.payment_status }}</td>
+                <td>{{ booking.booking_date.strftime('%Y-%m-%d') }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No bookings yet.</p>
+    {% endif %}
+
+    <p><a href="{{ url_for('admin.dashboard') }}">Back to Dashboard</a></p>
+{% endblock %}

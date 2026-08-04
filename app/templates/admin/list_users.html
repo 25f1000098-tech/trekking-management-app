@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Manage Users{% endblock %}
+{% block content %}
+    <h1>Trekkers</h1>
+    <form method="GET" style="margin-bottom: 16px;">
+        <input type="text" name="q" placeholder="Search by name or ID" value="{{ query }}">
+        <button type="submit">Search</button>
+        <a href="{{ url_for('admin.list_users') }}">Clear</a>
+    </form>
+    {% if users %}
+        <table border="1" cellpadding="6" style="border-collapse: collapse; width: 100%;">
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Active</th>
+                <th>Actions</th>
+            </tr>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ 'Yes' if user.is_active else 'No' }}</td>
+                <td>
+                    {% if user.is_active %}
+                        <form method="POST" action="{{ url_for('admin.deactivate_user', user_id=user.id) }}" style="display:inline;">
+                            <button type="submit">Deactivate</button>
+                        </form>
+                    {% else %}
+                        <form method="POST" action="{{ url_for('admin.reactivate_user', user_id=user.id) }}" style="display:inline;">
+                            <button type="submit">Reactivate</button>
+                        </form>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No trekkers registered yet.</p>
+    {% endif %}
+
+    <p><a href="{{ url_for('admin.dashboard') }}">Back to Dashboard</a></p>
+{% endblock %}

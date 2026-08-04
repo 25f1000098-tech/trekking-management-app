@@ -3,8 +3,18 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, logout_user, login_required, current_user
 from app import db
 from app.models import User, StaffProfile
-
+from functools import wraps
+from flask import abort
 auth = Blueprint('auth', __name__)
+
+
+def admin_required(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        if not current_user.is_authenticated or current_user.role != 'admin':
+            abort(403)
+        return f(*args, **kwargs)
+    return decorated
 
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
@@ -81,8 +91,10 @@ def logout():
 @login_required
 def dashboard_redirect():
     if current_user.role == 'admin':
-        return f"Welcome Admin {current_user.username} (dashboard not built yet)"
+        return redirect(url_for('admin.dashboard'))
     elif current_user.role == 'staff':
         return f"Welcome Staff {current_user.username} (dashboard not built yet)"
     else:
         return f"Welcome Trekker {current_user.username} (dashboard not built yet)"
+
+    

@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Manage Staff{% endblock %}
+{% block content %}
+    <h1>Trek Staff</h1>
+    <form method="GET" style="margin-bottom: 16px;">
+        <input type="text" name="q" placeholder="Search by name or ID" value="{{ query }}">
+        <button type="submit">Search</button>
+        <a href="{{ url_for('admin.list_staff') }}">Clear</a>
+    </form>
+    {% if staff_users %}
+        <table border="1" cellpadding="6" style="border-collapse: collapse; width: 100%;">
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Approved</th>
+                <th>Active</th>
+                <th>Actions</th>
+            </tr>
+            {% for staff in staff_users %}
+            <tr>
+                <td>{{ staff.id }}</td>
+                <td>{{ staff.username }}</td>
+                <td>{{ staff.email }}</td>
+                <td>{{ 'Yes' if staff.is_approved else 'No' }}</td>
+                <td>{{ 'Yes' if staff.is_active else 'No' }}</td>
+                <td>
+                    {% if not staff.is_approved %}
+                        <form method="POST" action="{{ url_for('admin.approve_staff', user_id=staff.id) }}" style="display:inline;">
+                            <button type="submit">Approve</button>
+                        </form>
+                    {% endif %}
+                    {% if staff.is_active %}
+                        <form method="POST" action="{{ url_for('admin.deactivate_staff', user_id=staff.id) }}" style="display:inline;">
+                            <button type="submit">Deactivate</button>
+                        </form>
+                    {% else %}
+                        <form method="POST" action="{{ url_for('admin.reactivate_staff', user_id=staff.id) }}" style="display:inline;">
+                            <button type="submit">Reactivate</button>
+                        </form>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No staff registered yet.</p>
+    {% endif %}
+
+    <p><a href="{{ url_for('admin.dashboard') }}">Back to Dashboard</a></p>
+{% endblock %}

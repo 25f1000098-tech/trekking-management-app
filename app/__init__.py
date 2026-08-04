@@ -24,4 +24,7 @@ def create_app():
             return User.query.get(int(user_id))
     from app.routes.auth import auth
     app.register_blueprint(auth)
+
+    from app.routes.admin import admin_bp
+    app.register_blueprint(admin_bp)
     return app

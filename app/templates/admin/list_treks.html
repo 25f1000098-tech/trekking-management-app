@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Manage Treks{% endblock %}
+{% block content %}
+    <h1>All Treks</h1>
+    <form method="GET" style="margin-bottom: 16px;">
+        <input type="text" name="q" placeholder="Search by name or ID" value="{{ query }}">
+        <button type="submit">Search</button>
+        <a href="{{ url_for('admin.list_treks') }}">Clear</a>
+    </form>
+    <p><a href="{{ url_for('admin.create_trek') }}">+ Create New Trek</a></p>
+
+    {% if treks %}
+        <table border="1" cellpadding="6" style="border-collapse: collapse; width: 100%;">
+            <tr>
+                <th>Name</th>
+                <th>Difficulty</th>
+                <th>Location</th>
+                <th>Slots</th>
+                <th>Status</th>
+                <th>Staff Assigned</th>
+                <th>Actions</th>
+            </tr>
+            {% for trek in treks %}
+            <tr>
+                <td>{{ trek.name }}</td>
+                <td>{{ trek.difficulty }}</td>
+                <td>{{ trek.location }}</td>
+                <td>{{ trek.available_slots }}</td>
+                <td>{{ trek.status }}</td>
+                <td>
+                    {% if trek.assigned_staff %}
+                        {{ trek.assigned_staff.user.username }}
+                    {% else %}
+                        Not assigned
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{{ url_for('admin.edit_trek', trek_id=trek.id) }}">Edit</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No treks created yet.</p>
+    {% endif %}
+
+    <p><a href="{{ url_for('admin.dashboard') }}">Back to Dashboard</a></p>
+{% endblock %}
