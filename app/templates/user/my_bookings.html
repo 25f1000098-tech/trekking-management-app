@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}My Bookings{% endblock %}
+{% block content %}
+    <h1>My Bookings</h1>
+
+    {% if bookings %}
+        <table border="1" cellpadding="6" style="border-collapse: collapse; width: 100%;">
+            <tr>
+                <th>Trek</th>
+                <th>Status</th>
+                <th>Payment</th>
+                <th>Booked On</th>
+            </tr>
+            {% for booking in bookings %}
+            <tr>
+                <td>{{ booking.trek.name }}</td>
+                <td>{{ booking.booking_status }}</td>
+                <td>{{ booking.payment_status }}</td>
+                <td>{{ booking.booking_date.strftime('%Y-%m-%d') }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>You haven't booked any treks yet.</p>
+    {% endif %}
+
+    <p><a href="{{ url_for('user.dashboard') }}">Back to Available Treks</a></p>
+{% endblock %}

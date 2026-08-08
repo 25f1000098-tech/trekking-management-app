@@ -95,6 +95,6 @@ def dashboard_redirect():
     elif current_user.role == 'staff':
         return redirect(url_for('staff.dashboard'))
     else:
-        return f"Welcome Trekker {current_user.username} (dashboard not built yet)"
+        return redirect(url_for('user.dashboard'))
 
     

@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Available Treks{% endblock %}
+{% block content %}
+    <h1>Available Treks</h1>
+    <p>Welcome, {{ current_user.username }}</p>
+
+    <form method="GET" style="margin-bottom: 16px;">
+        <input type="text" name="q" placeholder="Search by location" value="{{ query }}">
+        <select name="difficulty">
+            <option value="">All Difficulties</option>
+            <option value="Easy" {% if difficulty == 'Easy' %}selected{% endif %}>Easy</option>
+            <option value="Moderate" {% if difficulty == 'Moderate' %}selected{% endif %}>Moderate</option>
+            <option value="Hard" {% if difficulty == 'Hard' %}selected{% endif %}>Hard</option>
+        </select>
+        <button type="submit">Filter</button>
+        <a href="{{ url_for('user.dashboard') }}">Clear</a>
+    </form>
+
+    {% if treks %}
+        <table border="1" cellpadding="6" style="border-collapse: collapse; width: 100%;">
+            <tr>
+                <th>Name</th>
+                <th>Difficulty</th>
+                <th>Location</th>
+                <th>Duration</th>
+                <th>Slots Left</th>
+                <th>Action</th>
+            </tr>
+            {% for trek in treks %}
+            <tr>
+                <td>{{ trek.name }}</td>
+                <td>{{ trek.difficulty }}</td>
+                <td>{{ trek.location }}</td>
+                <td>{{ trek.duration_days }} days</td>
+                <td>{{ trek.available_slots }}</td>
+                <td>
+                    {% if trek.id in my_booking_trek_ids %}
+                        Already Booked
+                    {% elif trek.available_slots <= 0 %}
+                        Full
+                    {% else %}
+                        <form method="POST" action="{{ url_for('user.book_trek', trek_id=trek.id) }}" style="display:inline;">
+                            <button type="submit">Book</button>
+                        </form>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No open treks available right now.</p>
+    {% endif %}
+
+    <p><a href="{{ url_for('user.my_bookings') }}">My Bookings</a></p>
+    <p><a href="{{ url_for('auth.logout') }}">Log out</a></p>
+{% endblock %}

@@ -182,3 +182,12 @@ def list_bookings():
     bookings = Booking.query.all()
     return render_template('admin/list_bookings.html', bookings=bookings)
 
+@admin_bp.route('/bookings/<int:booking_id>/mark-paid', methods=['POST'])
+@login_required
+@admin_required
+def mark_paid(booking_id):
+    booking = Booking.query.get_or_404(booking_id)
+    booking.payment_status = 'Paid'
+    db.session.commit()
+    flash('Booking marked as paid.')
+    return redirect(url_for('admin.list_bookings'))

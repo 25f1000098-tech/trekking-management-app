@@ -11,6 +11,7 @@
                 <th>Status</th>
                 <th>Payment</th>
                 <th>Date</th>
+                <th>Actions</th>
             </tr>
             {% for booking in bookings %}
             <tr>
@@ -19,8 +20,15 @@
                 <td>{{ booking.booking_status }}</td>
                 <td>{{ booking.payment_status }}</td>
                 <td>{{ booking.booking_date.strftime('%Y-%m-%d') }}</td>
+                <td>
+                    {% if booking.payment_status == 'Pending' %}
+                    <form method="POST" action="{{ url_for('admin.mark_paid', booking_id=booking.id) }}" style="display:inline;">
+                        <button type="submit">Mark Paid</button>
+                    </form>
+                    {% endif %}
+                </td>
             </tr>
-            {% endfor %}
+{% endfor %}
         </table>
     {% else %}
         <p>No bookings yet.</p>
