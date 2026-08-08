@@ -21,19 +21,27 @@
     {% if bookings %}
         <table border="1" cellpadding="6" style="border-collapse: collapse; width: 100%;">
             <tr>
-                <th>Trekker</th>
-                <th>Status</th>
-                <th>Payment</th>
-                <th>Date</th>
-            </tr>
-            {% for booking in bookings %}
-            <tr>
-                <td>{{ booking.user.username }}</td>
-                <td>{{ booking.booking_status }}</td>
-                <td>{{ booking.payment_status }}</td>
-                <td>{{ booking.booking_date.strftime('%Y-%m-%d') }}</td>
-            </tr>
-            {% endfor %}
+            <th>Trekker</th>
+            <th>Status</th>
+            <th>Payment</th>
+            <th>Date</th>
+            <th>Actions</th>
+        </tr>
+        {% for booking in bookings %}
+        <tr>
+            <td>{{ booking.user.username }}</td>
+            <td>{{ booking.booking_status }}</td>
+            <td>{{ booking.payment_status }}</td>
+            <td>{{ booking.booking_date.strftime('%Y-%m-%d') }}</td>
+            <td>
+                {% if booking.booking_status == 'Booked' %}
+                <form method="POST" action="{{ url_for('staff.complete_booking', booking_id=booking.id) }}" style="display:inline;">
+                    <button type="submit">Mark Completed</button>
+                </form>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
         </table>
     {% else %}
         <p>No trekkers registered for this trek yet.</p>

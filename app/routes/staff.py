@@ -66,3 +66,22 @@ def profile():
         return redirect(url_for('staff.dashboard'))
 
     return render_template('staff/profile.html', profile=staff_profile)
+
+@staff_bp.route('/bookings/<int:booking_id>/complete', methods=['POST'])
+@login_required
+@staff_required
+def complete_booking(booking_id):
+    booking = Booking.query.get_or_404(booking_id)
+    profile = StaffProfile.query.filter_by(user_id=current_user.id).first()
+
+    if not profile or booking.trek.staff_id != profile.id:
+        abort(403)
+
+    if booking.booking_status != 'Booked':
+        flash('This booking cannot be marked completed.')
+        return redirect(url_for('staff.manage_trek', trek_id=booking.trek_id))
+
+    booking.booking_status = 'Completed'
+    db.session.commit()
+    flash('Booking marked as completed.')
+    return redirect(url_for('staff.manage_trek', trek_id=booking.trek_id))

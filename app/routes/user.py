@@ -69,3 +69,22 @@ def book_trek(trek_id):
 def my_bookings():
     bookings = Booking.query.filter_by(user_id=current_user.id).all()
     return render_template('user/my_bookings.html', bookings=bookings)
+
+@user_bp.route('/bookings/<int:booking_id>/cancel', methods=['POST'])
+@login_required
+@trekker_required
+def cancel_booking(booking_id):
+    booking = Booking.query.get_or_404(booking_id)
+
+    if booking.user_id != current_user.id:
+        abort(403)
+
+    if booking.booking_status != 'Booked':
+        flash('This booking cannot be cancelled.')
+        return redirect(url_for('user.my_bookings'))
+
+    booking.booking_status = 'Cancelled'
+    booking.trek.available_slots += 1
+    db.session.commit()
+    flash('Booking cancelled.')
+    return redirect(url_for('user.my_bookings'))
