@@ -33,5 +33,7 @@ def create_app():
 
     from app.routes.user import user_bp
     app.register_blueprint(user_bp)
-    
+
+    from app.routes.main import main_bp
+    app.register_blueprint(main_bp)
     return app

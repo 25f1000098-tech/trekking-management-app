@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Manage Trek{% endblock %}
 {% block content %}
+<div class="card">
     <h1>Manage: {{ trek.name }}</h1>
 
     <form method="POST">
@@ -16,7 +17,8 @@
 
         <button type="submit">Save Changes</button>
     </form>
-
+</div>
+<div class="card" style="max-width: 100%;">
     <h2>Registered Trekkers</h2>
     {% if bookings %}
         <table border="1" cellpadding="6" style="border-collapse: collapse; width: 100%;">
@@ -48,4 +50,5 @@
     {% endif %}
 
     <p><a href="{{ url_for('staff.dashboard') }}">Back to Dashboard</a></p>
+</div>
 {% endblock %}

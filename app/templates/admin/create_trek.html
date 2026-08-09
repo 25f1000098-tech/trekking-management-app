@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Create Trek{% endblock %}
 {% block content %}
+<div class="card">
     <h1>Create New Trek</h1>
     <form method="POST">
         <label for="name">Trek Name</label>
@@ -25,4 +26,5 @@
         <button type="submit">Create Trek</button>
     </form>
     <p><a href="{{ url_for('admin.dashboard') }}">Back to Dashboard</a></p>
+</div>
 {% endblock %}

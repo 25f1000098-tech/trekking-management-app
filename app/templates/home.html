@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Trekking Management Application{% endblock %}
+{% block content %}
+    <h1>Trekking Management Application</h1>
+    <p>Plan, manage, and book treks — for Admins, Trek Staff, and Trekkers.</p>
+    <div style="display: flex; gap: 12px; margin-top: 20px;">
+        <a href="{{ url_for('auth.login') }}" style="padding: 10px 18px; background: #2563eb; color: #fff; border-radius: 6px; text-decoration: none; font-weight: 600;">Log In</a>
+        <a href="{{ url_for('auth.register') }}" style="padding: 10px 18px; background: #fff; color: #2563eb; border: 1px solid #2563eb; border-radius: 6px; text-decoration: none; font-weight: 600;">Register</a>
+    </div>
+{% endblock %}
