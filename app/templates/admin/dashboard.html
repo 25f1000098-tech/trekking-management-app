@@ -4,16 +4,20 @@
     <h1>Admin Dashboard</h1>
     <p>Welcome, {{ current_user.username }}</p>
 
-    <ul>
-        <li>Total Treks: {{ total_treks }}</li>
-        <li>Total Trekkers: {{ total_users }}</li>
-        <li>Total Staff: {{ total_staff }}</li>
-        <li>Total Bookings: {{ total_bookings }}</li>
-    </ul>
-    <p><a href="{{ url_for('admin.create_trek') }}">+ Create New Trek</a></p>
-    <p><a href="{{ url_for('admin.list_staff') }}">Manage Staff</a></p>
-    <p><a href="{{ url_for('admin.list_treks') }}">Manage Treks</a></p>
-    <p><a href="{{ url_for('admin.list_users') }}">Manage Trekkers</a></p>
-    <p><a href="{{ url_for('admin.list_bookings') }}">View All Bookings</a></p>
-    <p><a href="{{ url_for('auth.logout') }}">Log out</a></p>
+    <div class="stat-grid">
+        <div class="stat-box"><div class="num">{{ total_treks }}</div><div class="label">Total Treks</div></div>
+        <div class="stat-box"><div class="num">{{ total_users }}</div><div class="label">Total Trekkers</div></div>
+        <div class="stat-box"><div class="num">{{ total_staff }}</div><div class="label">Total Staff</div></div>
+        <div class="stat-box"><div class="num">{{ total_bookings }}</div><div class="label">Total Bookings</div></div>
+    </div>
+
+    <div class="link-list">
+        <a href="{{ url_for('admin.create_trek') }}">+ Create New Trek</a>
+        <a href="{{ url_for('admin.list_treks') }}">Manage Treks</a>
+        <a href="{{ url_for('admin.list_staff') }}">Manage Staff</a>
+        <a href="{{ url_for('admin.list_users') }}">Manage Trekkers</a>
+        <a href="{{ url_for('admin.list_bookings') }}">View All Bookings</a>
+    </div>
+
+    <p style="margin-top: 20px;"><a href="{{ url_for('auth.logout') }}">Log out</a></p>
 {% endblock %}
